@@ -15,7 +15,7 @@ export class FoodPageComponent implements OnInit{
     private cartService:CartService,private router:Router){
     activatedRoute.params.subscribe((params)=>{
       if(params.id)
-      this.food=foodService.getFoodById(params.id);
+      foodService.getFoodById(params.id).subscribe(serverFood=> this.food=serverFood);
     })
   }
   ngOnInit(): void {
