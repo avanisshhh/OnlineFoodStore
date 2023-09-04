@@ -40,8 +40,16 @@ router.post("/login", asyncHandler(async(req, res) => {
       "Somerandomtext",
       { expiresIn: "1h" }
     );
-    user.token = token;
-    return user;
+    // user.token = token;
+    // return user;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      address: user.address,
+      isAdmin: user.isAdmin,
+      token: token
+    };
   };
 
   router.post("/register",asyncHandler(

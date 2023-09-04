@@ -19,7 +19,6 @@ router.get("/seed", asyncHandler(
 router.get("/", asyncHandler(async (req, res) => {
   const food= await FoodModel.find();
   res.send(food);
-    //res.send(sample_foods);
   }));
   
   router.get("/search/:searchTerm",asyncHandler( async(req, res) => {

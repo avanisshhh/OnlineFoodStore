@@ -34,6 +34,8 @@ export class RegisterPageComponent implements OnInit {
       }
     );
     this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
+    console.log(this.returnUrl,"qwerty");
+    
   }
   get fc() {
     return this.registerForm.controls;
@@ -50,7 +52,7 @@ export class RegisterPageComponent implements OnInit {
       confirmPassword: fv.confirmPassword,
       address: fv.address,
     };
-
+    console.log(this.returnUrl,"qwerty1");
     this.userService.register(user).subscribe((_) => {
       this.router.navigateByUrl(this.returnUrl);
     });

@@ -21,6 +21,8 @@ export class LoginPageComponent implements OnInit {
       password: ['', Validators.required],
     });
     this.returnUrl=this.activatedRoute.snapshot.queryParams.returnUrl //?returnUrl=/checkout
+    console.log(this.returnUrl,"qwerty");
+    
   }
   get fc() {
     return this.loginForm.controls;
@@ -32,6 +34,7 @@ export class LoginPageComponent implements OnInit {
     }
   //   alert(`email:${this.fc.email.value},
   // email:${this.fc.password.value}`);
+  console.log(this.returnUrl,"qwerty1");
   this.userService.login({email:this.fc.email.value,password:this.fc.password.value})
   .subscribe(()=>{
 this.router.navigateByUrl(this.returnUrl)
