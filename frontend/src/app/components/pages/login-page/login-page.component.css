@@ -24,3 +24,9 @@ form {
    background-color:rgb(68, 173, 68);
    
   }
+
+.register{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
