@@ -30,6 +30,30 @@ router.post("/login", asyncHandler(async(req, res) => {
     res.status(HTTP_BAD_REQUEST).send("Invalid email or password");
   }
 }));
+router.post("/register",asyncHandler(
+  async(req,res)=>{
+    const {name,email,password,address}=req.body;
+    const user=await UserModel.findOne({email});
+    if(user){
+      res.status(HTTP_BAD_REQUEST).send('User is already exist , please login');
+      return;
+    }
+    const encryptedPassword=await bcrypt.hash(password,10);
+    const newUser:User={
+      id:'',
+      name,
+      email: email.toLowerCase(),
+      password: encryptedPassword,
+      address,
+      isAdmin: false,
+      
+    }
+    console.log(newUser,"values");
+    
+     const dbUser=await UserModel.create(newUser);
+     res.send(generateTokenResponse(dbUser));
+
+  }))
   
   const generateTokenResponse = (user: any) => {
     const token = jwt.sign(
@@ -52,27 +76,7 @@ router.post("/login", asyncHandler(async(req, res) => {
     };
   };
 
-  router.post("/register",asyncHandler(
-    async(req,res)=>{
-      const {name,email,password,address}=req.body;
-      const user=await UserModel.findOne({email});
-      if(user){
-        res.status(HTTP_BAD_REQUEST).send('User is already exist , please login');
-        return;
-      }
-      const encryptedPassword=await bcrypt.hash(password,10);
-      const newUser:User={
-        id:'',
-        name,
-        email:email.toLowerCase(),
-        password:encryptedPassword,
-        address,
-        isAdmin:false
-      }
-       const dbUser=await UserModel.create(newUser);
-       res.send(generateTokenResponse(dbUser));
-
-    }))
+ 
 
 
 
