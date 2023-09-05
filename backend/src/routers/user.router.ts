@@ -57,11 +57,11 @@ router.post("/register",asyncHandler(
   
   const generateTokenResponse = (user: any) => {
     const token = jwt.sign(
-      {
+      {  id: user.id,
         email: user.email,
         isAdmin: user.isAdmin,
       },
-      "Somerandomtext",
+      process.env.JWT_SECRET!,
       { expiresIn: "1h" }
     );
     // user.token = token;
