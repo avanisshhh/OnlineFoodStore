@@ -1,6 +1,7 @@
 import {Router} from 'express';
-import asyncHander from 'express-async-handler';
 import { HTTP_BAD_REQUEST } from '../constants/http_status';
+import asyncHandler from 'express-async-handler';
+
 import { OrderStatus } from '../constants/order_status';
 import { OrderModel } from '../models/order.model';
 import auth from '../middleware/auth.mid';
@@ -9,7 +10,7 @@ const router = Router();
 router.use(auth);
 
 router.post('/create',
-asyncHander(async (req:any, res:any) => {
+asyncHandler(async (req:any, res:any) => {
     const requestOrder = req.body;
 
     if(requestOrder.items.length <= 0){
@@ -27,12 +28,12 @@ asyncHander(async (req:any, res:any) => {
     res.send(newOrder);
 })
 );
-router.get('/newOrderForCurrentUser', asyncHander( async (req:any,res ) => {
+router.get('/newOrderForCurrentUser', asyncHandler( async (req:any,res ) => {
     const order= await getNewOrderForCurrentUser(req);
     if(order) res.send(order);
     else res.status(HTTP_BAD_REQUEST).send();
 }));
-router.post('/pay', asyncHander( async (req:any, res) => {
+router.post('/pay', asyncHandler( async (req:any, res) => {
     const {paymentId} = req.body;
     const order = await getNewOrderForCurrentUser(req);
     if(!order){
@@ -45,7 +46,14 @@ router.post('/pay', asyncHander( async (req:any, res) => {
     await order.save();
 
     res.send(order._id);
+}));
+
+router.get('/track/:id', asyncHandler( async (req, res) => {
+    const order = await OrderModel.findById(req.params.id);
+    res.send(order);
 }))
+
+
 
 export default router;
 
